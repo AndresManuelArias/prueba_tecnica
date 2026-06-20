@@ -11,8 +11,8 @@ except ImportError:
     def ZoneInfo(tz_name: str):
         return pytz.timezone(tz_name)
 
-from ejercicio1.app.core.models import User, Notification
-from ejercicio1.app.core.channels import NotificationChannel
+from app.core.models import User, Notification
+from app.core.channels import NotificationChannel
 
 logger = logging.getLogger(__name__)
 

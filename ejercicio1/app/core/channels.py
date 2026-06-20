@@ -1,7 +1,7 @@
 import logging
 import random
 from abc import ABC, abstractmethod
-from ejercicio1.app.core.models import User, Notification
+from app.core.models import User, Notification
 
 
 logger = logging.getLogger(__name__)
