@@ -14,3 +14,8 @@ para el manejo de la falla se utilia una excepción de ConnectionError, para que
 ### fase 3
 Al tratar de cumplir con los principios SOLID, se crea una clase abstracta para el el filtro y objetos que definen estas reglas.
 El manejo del tiempo se hace utilizando la hora universal y no la hora del servidor
+
+
+### fase 4
+
+se maneja la inyeccion de dependencias

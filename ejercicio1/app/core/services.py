@@ -1,8 +1,8 @@
 import logging
 from typing import List, Dict
-from ejercicio_1.core.models import User, Notification
-from ejercicio_1.core.channels import NotificationChannel
-from ejercicio_1.core.filters import NotificationFilter
+from ejercicio1.app.core.models import User, Notification
+from ejercicio1.app.core.channels import NotificationChannel
+from ejercicio1.app.core.filters import NotificationFilter
 
 logger = logging.getLogger(__name__)
 
