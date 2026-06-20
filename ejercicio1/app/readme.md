@@ -27,3 +27,17 @@ se maneja la inyeccion de dependencias, agregando una lista de abstracciones, do
 se aplica un corto circuito para el no envio de la notificaciones, si en algun momento el filtro determina que el mensaje no se debe enviar entonces se interumpe el flujo
 
 <a href="core/services.py"> services </a>
+
+
+### fase 5
+
+El endpoint no trabaja directamente con user ni con notification, recibe la capa de representacion que es NotificationRequest y despues realiza un mapeo explicito que es User(payload..). Esto con el fin de asegurar que si la api cambia el contrato JSON, las reglas de negocio del dominio queden protegidas
+
+
+<a href="api/schemas.py"> shemas </a>
+
+<a href="api/dependencies.py"> dependencies </a>
+
+<a href="api/v1/notifications.py"> notifications </a>
+
+<a href="main.py"> main </a>
