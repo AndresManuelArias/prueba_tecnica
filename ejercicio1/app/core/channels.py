@@ -1,14 +1,17 @@
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 import logging
 import random
 from abc import ABC, abstractmethod
+
 from app.core.models import User, Notification
 
 
 logger = logging.getLogger(__name__)
 
 
-class NotificationChannel(ABC):# creación de clase abstracta
-
+class NotificationChannel(ABC):
 
     @property
     @abstractmethod
@@ -30,11 +33,24 @@ class EmailChannel(NotificationChannel):
         return "email"
 
     def send(self, notification: Notification, user: User) -> bool:
-        logger.info(
-            f" Sending EMAIL to {user.email} | Subject: {notification.title} | Body: {notification.body}"
-        )
-
-        return True
+        SMTP_SERVER = "localhost"
+        SMTP_PORT = 1025
+        sender_email = "no-reply@tuplataforma.com"
+        msg = MIMEMultipart()
+        msg["From"] = sender_email
+        msg["To"] = user.email
+        msg["Subject"] = notification.title
+        msg.attach(MIMEText(notification.body, "plain"))
+        
+        try:
+            with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+                server.sendmail(sender_email, user.email, msg.as_string())
+            
+            logger.info(f"EMAIL enviado exitosamente a {user.email} (Capturado por Mailpit)")
+            return True
+        except Exception as e:
+            logger.error(f"Fallo al conectar con el servidor SMTP local: {str(e)}")
+            raise ConnectionError(f"Error de infraestructura de Email: {str(e)}")
 
 
 class SMSChannel(NotificationChannel):
@@ -50,6 +66,6 @@ class SMSChannel(NotificationChannel):
             raise ConnectionError("SMS gateway timeout: Proveedor externo no responde.")
 
         logger.info(
-            f" Sending SMS to {user.phone_number} | Message: {notification.body[:30]}..."
+            f"Sending SMS to {user.phone_number} | Message: {notification.body[:30]}..."
         )
         return True
