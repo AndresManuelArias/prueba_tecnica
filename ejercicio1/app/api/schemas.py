@@ -8,7 +8,7 @@ class UserSchema(BaseModel):
     email: EmailStr
     phone_number: str = Field(..., examples=["+573001234567"])
     timezone: str = Field(default="America/Bogota", examples=["America/Bogota", "America/Argentina/Buenos_Aires"])
-    channel_preferences: Dict[str, bool] = Field(default_factory=dict, examples=[{"email": True, "sms": False}])
+    channel_preferences: Dict[str, bool] = Field(default_factory=dict, examples=[{"email": True, "sms": False, "whatsapp": False}])
 
 class NotificationSchema(BaseModel):
     id: str = Field(..., examples=["notif-999"])

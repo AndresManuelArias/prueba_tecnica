@@ -2,11 +2,13 @@ from typing import Generator
 from app.core.services import NotificationService
 from app.core.channels import EmailChannel, SMSChannel
 from app.core.filters import UserPreferencesFilter, QuietHoursFilter
+from app.core.channels import EmailChannel, SMSChannel, WhatsAppChannel
 
 def get_notification_service() -> NotificationService:
     channels = [
         EmailChannel(),
-        SMSChannel()
+        SMSChannel(),
+        WhatsAppChannel()
     ]
     
     filters = [
