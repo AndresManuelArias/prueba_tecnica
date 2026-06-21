@@ -28,4 +28,14 @@ http://localhost:8025
 EXPORT META_WHATSAPP_TOKEN="tu_permanent_access_token_aqui"
 EXPORT META_PHONE_NUMBER_ID="tu_phone_number_id_aqui"
 EXPORT META_VERSION_API="v20.0"
-``
+```
+
+
+
+##  correr ejercicio 2
+
+```sh
+cd ejercicio2_pipeline
+python3 main.py
+
+```
