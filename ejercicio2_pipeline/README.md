@@ -10,3 +10,11 @@ Ademas que no se va a ejecutar todos los valores de golpe si no de uno en uno y 
 con window_aggregation_stage se crean bloques de 5 minutos definidos por el timestamp, de esta manera solo se procesa la informacion por grupos de tiempo.
 <a href="pipeline/stages.py"> generator </a>
 
+
+# Fase 3
+
+Se agrega funcion reduce esto con el objetivo, de esta forma se puedan agregar nuevos flujos
+
+
+
+
