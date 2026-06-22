@@ -39,3 +39,10 @@ cd ejercicio2_pipeline
 python3 main.py
 
 ```
+
+## correr ejercicio 3
+
+```sh
+node index.js
+
+```
