@@ -25,6 +25,10 @@ class AdvancedCache {
 
   /**
    * Guarda un elemento en la caché con un TTL específico.
+   * Aplica la política de evicción LRU si se supera el tamaño máximo.
+   * @param {string} key 
+   * @param {*} value 
+   * @param {number} [ttl] - TTL opcional en milisegundos para esta llave.
    */
   set(key, value, ttl = this.defaultTTL) {
     const now = Date.now();
@@ -41,7 +45,11 @@ class AdvancedCache {
     this.storage.set(key, { value, expiresAt });
   }
 
-
+  /**
+   * Obtiene un elemento de la caché si existe y no ha expirado (Evicción Pasiva).
+   * @param {string} key 
+   * @returns {*|null} Retorna el valor o null si no existe/expiró.
+   */
   get(key) {
     if (!this.storage.has(key)) {
       return null;
