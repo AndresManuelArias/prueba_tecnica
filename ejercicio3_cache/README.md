@@ -6,5 +6,7 @@ Para generar una estructura reentrante y Segura (try...finally) se maneja el uso
 
 Para un aislamiento de contexto asíncrono fetchPromise se autoejecuta inmediatamente como una función IIFE asíncrona. Esto permite guardar la referencia de la Promesa pura en el mapa antes de que los hilos lógicos de JavaScript cedan el control en el await fetcher().
 
+Se realiza una simulacion a la base de datos
+
 <a href="ejercicio3_cache/src/cache.js"> cache </a>
 
