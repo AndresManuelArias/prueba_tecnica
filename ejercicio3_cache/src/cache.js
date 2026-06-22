@@ -20,6 +20,8 @@ class AdvancedCache {
 
     this.storage = new Map();
 
+    this.inFlightPromises = new Map();
+
     this.startExpiredCleaner();
   }
 
@@ -71,12 +73,48 @@ class AdvancedCache {
     return node.value;
   }
 
+  /**
+   * Método de consulta de alta concurrencia con mitigación de estampida (Cache Stampede Protection).
+   * Si el dato no existe, agrupa todas las llamadas concurrentes en una única promesa hacia el fetcher.
+   * * @param {string} key - La llave a buscar.
+   * @param {Function} fetcher - Función asíncrona que va a la fuente original (DB/API) si no hay caché.
+   * @param {number} [ttl] - TTL personalizado para esta llave.
+   * @returns {Promise<*>} El valor final resuelto.
+   */
+  async getOrFetch(key, fetcher, ttl = this.defaultTTL) {
+    const cachedValue = this.get(key);
+    if (cachedValue !== null) {
+      return cachedValue;
+    }
+
+    if (this.inFlightPromises.has(key)) {
+      console.log(`[Promise Coalescing] Petición concurrente acoplada para la llave: "${key}". Evitando llamada duplicada a la DB.`);
+      return this.inFlightPromises.get(key);
+    }
+
+    console.log(`[Cache Miss] Llave "${key}" no disponible. Creando promesa única de carga hacia la fuente original...`);
+    
+    const fetchPromise = (async () => {
+      try {
+        const freshData = await fetcher();
+        
+        this.set(key, freshData, ttl);
+        
+        return freshData;
+      } finally {
+        this.inFlightPromises.delete(key);
+      }
+    })();
+
+    this.inFlightPromises.set(key, fetchPromise);
+
+    return fetchPromise;
+  }
 
   startExpiredCleaner() {
     this.cleanerIntervalId = setInterval(() => {
       const now = Date.now();
       let deletedCount = 0;
-
 
       for (const [key, node] of this.storage.entries()) {
         if (now > node.expiresAt) {
